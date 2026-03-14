@@ -1,11 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Market</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+            font-family: Poppins;
+            background: linear-gradient(120deg,#f6f9ff,#e9f1ff);
+        }
+
+        .navbar{
+            background: white;
+            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo{
+            font-weight:700;
+            color:#4a6cf7;
+            font-size:24px;
+        }
+
+        .product-card{
+            border:none;
+            border-radius:18px;
+            overflow:hidden;
+            transition:.3s;
+            background:white;
+        }
+
+        .product-card:hover{
+            transform:translateY(-6px);
+            box-shadow:0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .price{
+            font-size:20px;
+            font-weight:600;
+            color:#4a6cf7;
+        }
+
+        .old-price{
+            text-decoration:line-through;
+            color:gray;
+            font-size:14px;
+        }
+
+        .discount-badge{
+            position:absolute;
+            top:10px;
+            left:10px;
+            background:#ff4d4f;
+            color:white;
+            padding:4px 10px;
+            border-radius:10px;
+            font-size:12px;
+        }
+
+        .btn-buy{
+            background:#4a6cf7;
+            color:white;
+            border-radius:12px;
+        }
+
+        .btn-buy:hover{
+            background:#3451d1;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bosh sahifa</h1>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <span class="logo">MiniMarket</span>
+
+        <form class="d-flex w-50">
+            <input class="form-control me-2" type="search" placeholder="Mahsulot qidirish">
+            <button class="btn btn-primary">Qidirish</button>
+        </form>
+
+        <div>
+            <button class="btn btn-outline-primary">Kirish</button>
+            <button class="btn btn-primary">Savatcha</button>
+        </div>
+    </div>
+</nav>
+
+
+<!-- PRODUCTS -->
+<div class="container mt-5">
+    <div class="row g-4">
+
+        {% for product in products %}
+        <div class="col-md-3">
+
+            <div class="card product-card position-relative">
+
+                {% if product.discount %}
+                <div class="discount-badge">
+                    {% if product.discount_type == 'percent' %}
+                        -{{ product.discount }}%
+                    {% else %}
+                        -{{ product.discount }} so'm
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <img src="{{ product.images.first.image.url }}" height="200" style="object-fit:cover">
+
+                <div class="card-body">
+                    <h6>{{ product.title }}</h6>
+
+                    <div class="mb-2">
+                        {% if product.discount %}
+                            <span class="old-price">{{ product.price }} so'm</span><br>
+                            <span class="price">{{ product.finally_price }} so'm</span>
+                        {% else %}
+                            <span class="price">{{ product.price }} so'm</span>
+                        {% endif %}
+                    </div>
+
+                    <small class="text-muted">
+                        {{ product.stock }} {{ product.unit_type }}
+                    </small>
+
+                    <button class="btn btn-buy w-100 mt-3">
+                        Sotib olish
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
 </body>
 </html>
+```

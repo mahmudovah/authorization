@@ -3,6 +3,7 @@ from django.http import HttpRequest
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.models import User
+from .models import Product
 
 # Create your views here.
 
@@ -49,5 +50,7 @@ def register_view(request: HttpRequest):
         return redirect("register")
     return render(request, "register.html")
 
+
 def index_view(request):
-    return render(request, "index.html")
+    products = Product.objects.all()
+    return render(request,'index.html',{'products':products})
