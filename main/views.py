@@ -48,3 +48,6 @@ def register_view(request: HttpRequest):
         )
         return redirect("register")
     return render(request, "register.html")
+
+def index_view(request):
+    return render(request, "index.html")

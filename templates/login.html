@@ -6,23 +6,117 @@ Tizimga kirish
 
 {% block content %}
 
-<form method="post">
-    {% csrf_token %}
+<style>
+    .login-container{
+        width: 360px;
+        margin: 70px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        font-family: Arial, sans-serif;
+    }
 
-    <label for="username">Username</label>
-    <input type="text" placeholder="username kiriting ..." name="username" required>
+    .login-container h2{
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-    <br>
-    <br>
+    .login-container label{
+        display: block;
+        margin-top: 10px;
+        font-weight: 600;
+        font-size: 14px;
+    }
 
-    <label for="password">Parol</label>
-    <input type="password" placeholder="Parol kiriting..." name="password" required>
+    .login-container input{
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: 0.2s;
+    }
 
-    <button type="submit">Yuborish</button>
-    <button type="reset">Tozalash</button>
+    .login-container input:focus{
+        border-color: #4CAF50;
+    }
 
-    <h2>Hisob ochish<a href="{% url 'register %}">Ro'yxatdan o'tish uchun</a></h2>
+    .btn-group{
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
 
-</form>
+    .btn{
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .submit-btn{
+        background: #4CAF50;
+        color: white;
+    }
+
+    .submit-btn:hover{
+        background: #43a047;
+    }
+
+    .reset-btn{
+        background: #e0e0e0;
+    }
+
+    .reset-btn:hover{
+        background: #cfcfcf;
+    }
+
+    .register-link{
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    .register-link a{
+        text-decoration: none;
+        color: #4CAF50;
+        font-weight: bold;
+    }
+
+    .register-link a:hover{
+        text-decoration: underline;
+    }
+</style>
+
+<div class="login-container">
+
+    <h2>Tizimga kirish</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="username">Username</label>
+        <input type="text" placeholder="Username kiriting..." name="username" required>
+
+        <label for="password">Parol</label>
+        <input type="password" placeholder="Parol kiriting..." name="password" required>
+
+        <div class="btn-group">
+            <button type="submit" class="btn submit-btn">Kirish</button>
+            <button type="reset" class="btn reset-btn">Tozalash</button>
+        </div>
+
+        <div class="register-link">
+            Hisobingiz yo'qmi?
+            <a href="{% url 'register' %}">Ro'yxatdan o'tish</a>
+        </div>
+
+    </form>
+
+</div>
 
 {% endblock %}

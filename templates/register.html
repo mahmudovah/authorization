@@ -6,29 +6,105 @@ Ro'yxatdan o'tish
 
 {% block content %}
 
-<form method="post">
-    {% csrf_token %}
+<style>
+    .register-container{
+        width: 380px;
+        margin: 60px auto;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        font-family: Arial, sans-serif;
+    }
 
-    <label for="first_name">Ismingiz</label>
-    <input type="text" placeholder="Ism kiriting ..." name="first_name">
-    
-    <label for="last_name">Familiya</label>
-    <input type="text" placeholder="Familiya kiriting ..." name="last_name">
+    .register-container h2{
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-    <label for="username">Username</label>
-    <input type="text" placeholder="username kiriting ..." name="username" required>
+    .register-container label{
+        display: block;
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 600;
+    }
 
-    <br>
-    <br>
+    .register-container input{
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: 0.2s;
+    }
 
-    <label for="password1">Parol</label>
-    <input type="password" placeholder="Parol kiriting..." name="password1" required>
+    .register-container input:focus{
+        border-color: #4CAF50;
+    }
 
-    <label for="password2">Takror parol</label>
-    <input type="password" placeholder="Parolni takrorlang..." name="password2" required>
+    .btn-group{
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
 
-    <button type="submit">Yuborish</button>
-    <button type="reset">Tozalash</button>
+    .btn{
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+    }
 
-</form>
+    .submit-btn{
+        background: #4CAF50;
+        color: white;
+    }
+
+    .submit-btn:hover{
+        background: #43a047;
+    }
+
+    .reset-btn{
+        background: #e0e0e0;
+    }
+
+    .reset-btn:hover{
+        background: #cfcfcf;
+    }
+</style>
+
+<div class="register-container">
+
+    <h2>Ro'yxatdan o'tish</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="first_name">Ismingiz</label>
+        <input type="text" placeholder="Ism kiriting..." name="first_name">
+
+        <label for="last_name">Familiya</label>
+        <input type="text" placeholder="Familiya kiriting..." name="last_name">
+
+        <label for="username">Username</label>
+        <input type="text" placeholder="Username kiriting..." name="username" required>
+
+        <label for="password1">Parol</label>
+        <input type="password" placeholder="Parol kiriting..." name="password1" required>
+
+        <label for="password2">Takror parol</label>
+        <input type="password" placeholder="Parolni takrorlang..." name="password2" required>
+
+        <div class="btn-group">
+            <button type="submit" class="btn submit-btn">Yuborish</button>
+            <button type="reset" class="btn reset-btn">Tozalash</button>
+        </div>
+
+    </form>
+
+</div>
+
 {% endblock content %}
