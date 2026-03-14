@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ro'yxatdan o'tish
+{% endblock title %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <label for="first_name">Ismingiz</label>
+    <input type="text" placeholder="Ism kiriting ..." name="first_name">
+    
+    <label for="last_name">Familiya</label>
+    <input type="text" placeholder="Familiya kiriting ..." name="last_name">
+
+    <label for="username">Username</label>
+    <input type="text" placeholder="username kiriting ..." name="username" required>
+
+    <br>
+    <br>
+
+    <label for="password1">Parol</label>
+    <input type="password" placeholder="Parol kiriting..." name="password1" required>
+
+    <label for="password2">Takror parol</label>
+    <input type="password" placeholder="Parolni takrorlang..." name="password2" required>
+
+    <button type="submit">Yuborish</button>
+    <button type="reset">Tozalash</button>
+
+</form>
+{% endblock content %}
