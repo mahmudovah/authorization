@@ -4,73 +4,184 @@
     <meta charset="UTF-8">
     <title>Market</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
     <style>
-        body{
-            font-family: Poppins;
-            background: linear-gradient(120deg,#f6f9ff,#e9f1ff);
+        body {
+            font-family: Poppins, sans-serif;
+            background: linear-gradient(120deg, #f6f9ff, #e9f1ff);
         }
 
-        .navbar{
+        .navbar {
             background: white;
-            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
 
-        .logo{
-            font-weight:700;
-            color:#4a6cf7;
-            font-size:24px;
+        .logo {
+            font-weight: 700;
+            color: #4a6cf7;
+            font-size: 24px;
         }
 
-        .product-card{
-            border:none;
-            border-radius:18px;
-            overflow:hidden;
-            transition:.3s;
-            background:white;
+        /* ---- Avatar ---- */
+        .avatar-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #4a6cf7;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: .15s;
+            user-select: none;
         }
 
-        .product-card:hover{
-            transform:translateY(-6px);
-            box-shadow:0 10px 25px rgba(0,0,0,0.12);
+        .avatar-btn:hover {
+            border-color: #a5b4fc;
         }
 
-        .price{
-            font-size:20px;
-            font-weight:600;
-            color:#4a6cf7;
+        /* ---- Dropdown ---- */
+        .profile-dropdown {
+            position: absolute;
+            top: 52px;
+            right: 0;
+            background: white;
+            border: 1px solid #e8eaf0;
+            border-radius: 14px;
+            width: 210px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+            display: none;
+            z-index: 999;
+            overflow: hidden;
         }
 
-        .old-price{
-            text-decoration:line-through;
-            color:gray;
-            font-size:14px;
+        .profile-dropdown.show {
+            display: block;
         }
 
-        .discount-badge{
-            position:absolute;
-            top:10px;
-            left:10px;
-            background:#ff4d4f;
-            color:white;
-            padding:4px 10px;
-            border-radius:10px;
-            font-size:12px;
+        .dropdown-header {
+            padding: 13px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .btn-buy{
-            background:#4a6cf7;
-            color:white;
-            border-radius:12px;
+        .mini-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #4a6cf7;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
 
-        .btn-buy:hover{
-            background:#3451d1;
+        .info .name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .info .username {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .dropdown-body {
+            padding: 6px;
+        }
+
+        .dropdown-item-custom {
+            padding: 9px 12px;
+            border-radius: 9px;
+            font-size: 13px;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            text-decoration: none;
+            transition: background .12s;
+        }
+
+        .dropdown-item-custom:hover {
+            background: #f4f6ff;
+            color: #4a6cf7;
+        }
+
+        .dropdown-item-custom.danger {
+            color: #e24b4a;
+        }
+
+        .dropdown-item-custom.danger:hover {
+            background: #fff0f0;
+            color: #e24b4a;
+        }
+
+        .dropdown-divider-custom {
+            height: 1px;
+            background: #f0f0f0;
+            margin: 4px 6px;
+        }
+
+        /* ---- Product card ---- */
+        .product-card {
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            transition: .3s;
+            background: white;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: 600;
+            color: #4a6cf7;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: gray;
+            font-size: 14px;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff4d4f;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        .btn-buy {
+            background: #4a6cf7;
+            color: white;
+            border-radius: 12px;
+            border: none;
+        }
+
+        .btn-buy:hover {
+            background: #3451d1;
+            color: white;
         }
     </style>
 </head>
@@ -78,18 +189,63 @@
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg">
-    <div class="container">
+    <div class="container d-flex align-items-center justify-content-between">
+
         <span class="logo">MiniMarket</span>
 
         <form class="d-flex w-50">
             <input class="form-control me-2" type="search" placeholder="Mahsulot qidirish">
-            <button class="btn btn-primary">Qidirish</button>
+            <button class="btn btn-primary" type="submit">Qidirish</button>
         </form>
+        
+        <button class="btn btn-primary">Savatcha</button>
 
-        <div>
-            <button class="btn btn-outline-primary">Kirish</button>
-            <button class="btn btn-primary">Savatcha</button>
+
+        <div class="d-flex align-items-center gap-2">
+
+            {% if user.is_authenticated %}
+            <!-- KIRGAN: Avatar doira -->
+            <div style="position:relative;">
+                <div class="avatar-btn" id="avatarBtn">
+                    {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                </div>
+
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-header">
+                        <div class="mini-avatar">
+                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                        </div>
+                        <div class="info">
+                            <div class="name">{{ user.get_full_name|default:user.username }}</div>
+                            <div class="username">@{{ user.username }}</div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-body">
+                        <a href="#" class="dropdown-item-custom">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Profilim
+                        </a>
+                        <a href="#" class="dropdown-item-custom">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            Sozlamalar
+                        </a>
+                        <div class="dropdown-divider-custom"></div>
+                        <a href="{% url 'logout' %}" class="dropdown-item-custom danger">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            Chiqish
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <!-- KIRMAGAN: Kirish tugmasi -->
+            <a href="{% url 'login' %}" class="btn btn-outline-primary">Kirish</a>
+            {% endif %}
+
         </div>
+
     </div>
 </nav>
 
@@ -100,51 +256,66 @@
 
         {% for product in products %}
         <div class="col-md-3">
+            <a href="{% url 'product_detail' product.id %}" style="text-decoration:none;color:black;">
+                <div class="card product-card position-relative">
 
-            <a href="{% url 'product_detail' product.id %}" style="text-decoration:none;color:black;"> 
-            <div class="card product-card position-relative">
-
-                {% if product.discount %}
-                <div class="discount-badge">
-                    {% if product.discount_type == 'percent' %}
-                        -{{ product.discount }}%
-                    {% else %}
-                        -{{ product.discount }} so'm
-                    {% endif %}
-                </div>
-                {% endif %}
-
-                <img src="{{ product.images.first.image.url }}" height="200" style="object-fit:cover">
-
-                <div class="card-body">
-                    <h6>{{ product.title }}</h6>
-
-                    <div class="mb-2">
-                        {% if product.discount %}
-                            <span class="old-price">{{ product.price }} so'm</span><br>
-                            <span class="price">{{ product.finally_price }} so'm</span>
+                    {% if product.discount %}
+                    <div class="discount-badge">
+                        {% if product.discount_type == 'percent' %}
+                            -{{ product.discount }}%
                         {% else %}
-                            <span class="price">{{ product.price }} so'm</span>
+                            -{{ product.discount }} so'm
                         {% endif %}
                     </div>
+                    {% endif %}
 
-                    <small class="text-muted">
-                        {{ product.stock }} {{ product.unit_type }}
-                    </small>
+                    <img src="{{ product.images.first.image.url }}" height="200" style="object-fit:cover">
 
-                    <button class="btn btn-buy w-100 mt-3">
-                        Sotib olish
-                    </button>
+                    <div class="card-body">
+                        <h6>{{ product.title }}</h6>
+
+                        <div class="mb-2">
+                            {% if product.discount %}
+                                <span class="old-price">{{ product.price }} so'm</span><br>
+                                <span class="price">{{ product.finally_price }} so'm</span>
+                            {% else %}
+                                <span class="price">{{ product.price }} so'm</span>
+                            {% endif %}
+                        </div>
+
+                        <small class="text-muted">{{ product.stock }} {{ product.unit_type }}</small>
+
+                        <button class="btn btn-buy w-100 mt-3">Sotib olish</button>
+                    </div>
+
                 </div>
-
-            </div>
-
+            </a>
         </div>
         {% endfor %}
 
     </div>
 </div>
 
+
+<script>
+    const btn = document.getElementById('avatarBtn');
+    const dropdown = document.getElementById('profileDropdown');
+
+    if (btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function() {
+            dropdown.classList.remove('show');
+        });
+
+        dropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+</script>
+
 </body>
 </html>
-```

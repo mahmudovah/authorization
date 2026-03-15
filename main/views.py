@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Product
@@ -20,7 +20,8 @@ def login_view(request: HttpRequest):
             return redirect("login")
         
         login(request,user)
-        return redirect("login")
+        return redirect("index")
+    
     return render(request, "login.html")
 
 def register_view(request: HttpRequest):
@@ -45,10 +46,18 @@ def register_view(request: HttpRequest):
             username=username,
             password=password1,
             last_name=last_name,
-            first_name=first_name
-        )
-        return redirect("register")
+            first_name=first_name)
+        
+        login(request, user)
+
+        return redirect("index")
+    
     return render(request, "register.html")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("index")
 
 
 def index_view(request):
