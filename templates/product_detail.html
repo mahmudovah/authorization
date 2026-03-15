@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.title }}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            background:linear-gradient(120deg,#f6f9ff,#e9f1ff);
+        }
+
+        .card-detail{
+            border:none;
+            border-radius:20px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.08);
+            background:white;
+        }
+
+        .main-img{
+            height:400px;
+            object-fit:cover;
+            border-radius:15px;
+        }
+
+        .thumb{
+            height:80px;
+            width:80px;
+            object-fit:cover;
+            border-radius:10px;
+            cursor:pointer;
+            border:2px solid transparent;
+        }
+
+        .thumb:hover{
+            border:2px solid #4a6cf7;
+        }
+
+        .price{
+            font-size:28px;
+            color:#4a6cf7;
+            font-weight:700;
+        }
+
+        .old-price{
+            text-decoration:line-through;
+            color:gray;
+        }
+
+        .discount{
+            background:#ff4d4f;
+            color:white;
+            padding:5px 12px;
+            border-radius:10px;
+            font-size:14px;
+            display:inline-block;
+        }
+
+        .buy-btn{
+            background:#4a6cf7;
+            color:white;
+            border-radius:12px;
+            padding:12px;
+            font-size:18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+
+    <div class="row card-detail p-4">
+
+        <!-- IMAGE SIDE -->
+        <div class="col-md-6">
+
+            <div class="position-relative">
+
+                {% if product.images.first %}
+                    <img id="mainImage"
+                         src="{{ product.images.first.image.url }}"
+                         class="w-100 main-img mb-3">
+                {% else %}
+                    <img id="mainImage"
+                         src="/static/no-image.png"
+                         class="w-100 main-img mb-3">
+                {% endif %}
+
+                <button onclick="prevImage()" class="btn btn-light position-absolute top-50 start-0 translate-middle-y">
+                    ◀
+                </button>
+
+                <button onclick="nextImage()" class="btn btn-light position-absolute top-50 end-0 translate-middle-y">
+                    ▶
+                </button>
+
+            </div>
+
+            <div class="d-flex gap-2">
+                {% for img in product.images.all %}
+                    <img src="{{ img.image.url }}" class="thumb" onclick="changeImage(this)">
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <!-- INFO SIDE -->
+        <div class="col-md-6">
+
+            <h2>{{ product.title }}</h2>
+
+            <p class="text-muted">
+                Kategoriya: {{ product.category.name }}
+            </p>
+
+            {% if product.discount %}
+                <span class="discount">
+                    {% if product.discount_type == 'percent' %}
+                        -{{ product.discount }}%
+                    {% else %}
+                        -{{ product.discount }} so'm
+                    {% endif %}
+                </span>
+            {% endif %}
+
+            <div class="mt-3">
+                {% if product.discount %}
+                    <span class="old-price">{{ product.price }} so'm</span><br>
+                    <span class="price">{{ product.finally_price }} so'm</span>
+                {% else %}
+                    <span class="price">{{ product.price }} so'm</span>
+                {% endif %}
+            </div>
+
+            <p class="mt-3">
+                Omborda: {{ product.stock }} {{ product.unit_type }}
+            </p>
+
+            <p>
+                {{ product.description }}
+            </p>
+
+            <button class="btn buy-btn w-100 mt-3">
+                🛒 Savatchaga qo‘shish
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let images = [
+    {% for img in product.images.all %}
+        "{{ img.image.url }}"{% if not forloop.last %},{% endif %}
+    {% endfor %}
+]
+
+let index = 0
+
+function showImage(){
+    if(images.length === 0) return
+    document.getElementById("mainImage").src = images[index]
+}
+
+function nextImage(){
+    if(images.length <= 1) return
+    index++
+    if(index >= images.length){
+        index = 0
+    }
+    showImage()
+}
+
+function prevImage(){
+    if(images.length <= 1) return
+    index--
+    if(index < 0){
+        index = images.length - 1
+    }
+    showImage()
+}
+
+function changeImage(el){
+    document.getElementById("mainImage").src = el.src
+    index = images.indexOf(el.src)
+}
+
+</script>
+
+</body>
+</html>

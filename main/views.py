@@ -54,3 +54,8 @@ def register_view(request: HttpRequest):
 def index_view(request):
     products = Product.objects.all()
     return render(request,'index.html',{'products':products})
+
+def product_detail(request, pk):
+    product = Product.objects.get(id=pk)
+    return render(request,'product_detail.html',{'product':product})
+

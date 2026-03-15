@@ -101,6 +101,7 @@
         {% for product in products %}
         <div class="col-md-3">
 
+            <a href="{% url 'product_detail' product.id %}" style="text-decoration:none;color:black;"> 
             <div class="card product-card position-relative">
 
                 {% if product.discount %}
